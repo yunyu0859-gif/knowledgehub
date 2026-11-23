@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.ConstructorArgs;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -19,4 +21,10 @@ public interface KnowledgeBaseMapper {
         @Arg(column = "created_at", javaType = LocalDateTime.class)
     })
     List<KnowledgeBase> findAll();
+
+    @Insert("INSERT INTO knowledge_base (name, description) VALUES (#{name}, #{description})")
+    int insert(
+        @Param("name") String name,
+        @Param("description") String description
+    );
 }
