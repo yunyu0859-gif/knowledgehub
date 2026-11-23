@@ -13,6 +13,9 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface KnowledgeBaseMapper {
 
+    @Select("SELECT COUNT(*) FROM knowledge_base WHERE id = #{id}")
+    int countById(@Param("id") Long id);
+
     @Select("SELECT id, name, description, created_at FROM knowledge_base ORDER BY id DESC")
     @ConstructorArgs({
         @Arg(column = "id", javaType = Long.class, id = true),
