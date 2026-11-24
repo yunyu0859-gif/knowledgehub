@@ -7,5 +7,7 @@ import java.util.List;
 public interface KnowledgeDocumentService {
     List<KnowledgeDocument> findByKnowledgeBaseId(Long knowledgeBaseId, String title);
 
+    List<KnowledgeDocument> search(Long knowledgeBaseId, String keyword);
+
     void create(Long knowledgeBaseId, CreateKnowledgeDocumentRequest request);
 }

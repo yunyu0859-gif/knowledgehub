@@ -18,7 +18,9 @@ public interface KnowledgeDocumentMapper {
         "SELECT id, knowledge_base_id, title, content, created_at",
         "FROM knowledge_document WHERE knowledge_base_id = #{knowledgeBaseId}",
         "<if test='title != null'>AND title LIKE CONCAT('%', #{title}, '%')</if>",
+        "<if test='keyword != null'>AND (LOCATE(#{keyword}, title) > 0 OR LOCATE(#{keyword}, content) > 0)</if>",
         "ORDER BY id DESC",
+        "<if test='keyword != null'>LIMIT 20</if>",
         "</script>"
     })
     @ConstructorArgs({
@@ -29,7 +31,8 @@ public interface KnowledgeDocumentMapper {
         @Arg(column = "created_at", javaType = LocalDateTime.class)
     })
     List<KnowledgeDocument> findByKnowledgeBaseId(@Param("knowledgeBaseId") Long knowledgeBaseId,
-                                                   @Param("title") String title);
+                                                   @Param("title") String title,
+                                                   @Param("keyword") String keyword);
 
     @Insert("INSERT INTO knowledge_document (knowledge_base_id, title, content) VALUES (#{knowledgeBaseId}, #{title}, #{content})")
     int insert(@Param("knowledgeBaseId") Long knowledgeBaseId,

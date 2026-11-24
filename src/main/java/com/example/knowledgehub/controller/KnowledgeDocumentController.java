@@ -33,6 +33,12 @@ public class KnowledgeDocumentController {
         return knowledgeDocumentService.findByKnowledgeBaseId(knowledgeBaseId, title);
     }
 
+    @GetMapping("/search")
+    public List<KnowledgeDocument> search(@PathVariable Long knowledgeBaseId,
+                                          @RequestParam String keyword) {
+        return knowledgeDocumentService.search(knowledgeBaseId, keyword);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable Long knowledgeBaseId,
                                        @RequestBody CreateKnowledgeDocumentRequest request) {

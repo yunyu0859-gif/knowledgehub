@@ -28,7 +28,20 @@ public class KnowledgeDocumentServiceImpl implements KnowledgeDocumentService {
         if (searchTitle != null && searchTitle.length() > 200) {
             throw new IllegalArgumentException("搜索标题不能超过200个字符");
         }
-        return knowledgeDocumentMapper.findByKnowledgeBaseId(knowledgeBaseId, searchTitle);
+        return knowledgeDocumentMapper.findByKnowledgeBaseId(knowledgeBaseId, searchTitle, null);
+    }
+
+    @Override
+    public List<KnowledgeDocument> search(Long knowledgeBaseId, String keyword) {
+        requireKnowledgeBase(knowledgeBaseId);
+        if (keyword == null || keyword.isBlank()) {
+            throw new IllegalArgumentException("搜索关键词不能为空");
+        }
+        String searchKeyword = keyword.trim();
+        if (searchKeyword.length() > 100) {
+            throw new IllegalArgumentException("搜索关键词不能超过100个字符");
+        }
+        return knowledgeDocumentMapper.findByKnowledgeBaseId(knowledgeBaseId, null, searchKeyword);
     }
 
     @Override
